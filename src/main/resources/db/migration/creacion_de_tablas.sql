@@ -20,7 +20,6 @@ CREATE TABLE Productos (
     unidad_de_medida VARCHAR(50),
     stock INT NOT NULL,
     precio_unitario DOUBLE NOT NULL,
-    precio DOUBLE NOT NULL,
     limite_minimo INT NOT NULL,
     cantidad_de_reposicion INT NOT NULL,
     fecha_de_creacion DATE NOT NULL,
