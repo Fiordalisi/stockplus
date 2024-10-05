@@ -441,3 +441,48 @@ Ventas }|--|{ Productos
 @enduml
 ```
 ![Diagrama ERD](http://www.plantuml.com/plantuml/png/nLHHRzey57tFh_2dJneW5LLxcQegYieWqwQDRa9GxQrox1jwrTWtkd5MKE6_po4Bf4fuOrfuYUyvnvnph-ExmabsfSc2_pIaQ47aZ4Rozl4PjiFDI8H952hAY6__JsvkFhptotSUYiBhGpKIc_0wYOxgb1XmRHjr8vM7foCzodoXDBQjWBJwUOK1ZNBCe8XrdzJ998DA2TQXsugD24CnN5w9boTqC19H50H1JLeLfMIaOYHU0-6VTbJKerlnvNvP0OqTIoPXyFM7oMBwUR9eOxaiYXTYtOywpCaZyVrgFXnCj46BXMEfYGTNOX1R9NdjLuU5oJEetaV1lZ7wWqcNobt6gOP2CUOAoNh2ClxvHbbQr5BFO0xQl_JlK3XIpzq_pHaKqigYgxhgyTdtrSTlSPVI2sLeqC4SBHhgxgsaTRMn1UHKOEM-oqf1FSaPJ1da7y9iienx67FIcABgiDh7LKa7QsAKZqs7HHX--Xf5fxbC6yfV7Sm5iks3un4I-zrulDk9a_VMAVi5e8dX8d70ICpwePoHk1hdFnnXA-tvbZo0TMU7s--zwxZkn3H3iEvChnmvcJMVHJT7MLzKFIbgWqs0va9xKtuLfza7mHrONLtllm40)
+
+```plantuml
+@startuml
+title Red Local - Stockplus
+
+skinparam cloud {
+  BackgroundColor LightGoldenRodYellow
+  BorderColor DarkOrange
+  FontColor Black
+  Shadowing true
+}
+
+skinparam rectangle {
+  BackgroundColor lightgrey
+  BorderColor darkSlateGray
+  FontColor black
+  Shadowing true
+}
+
+skinparam card {
+  BackgroundColor lightgrey
+  BorderColor darkSlateGray
+  FontColor black
+  Shadowing true
+}
+
+rectangle "PC Administrador\n(Gestión de Usuarios)" as PC_Admin
+rectangle "PC Empleado\n(Registro de Ventas y Consulta de Stock)" as PC_Empleado
+rectangle "PC Encargado\n(Gestión de Stock)" as PC_Encargado
+
+card "Switch" as Switch
+card "Router" as Router
+database "Servidor Local\n(Base de Datos MySQL y Sistema)" as Servidor
+cloud Internet
+
+PC_Admin --> Switch
+PC_Empleado --> Switch
+PC_Encargado --> Switch
+Switch --> Servidor
+Switch --> Router
+Router --> Internet 
+
+@enduml
+```
+![Diagrama RED LAN](https://www.plantuml.com/plantuml/png/jPFHgXCn48RlynH3h_IYho37zcWHAXwxA0Y2pDaCsz1ifamcbY8-bO_WYpcxCLeNBxpnAk7F_FytaytUPKNHCaQdGIF1WJpikSS8Q-YK-zCvbknSFeLqHi4H-iZ5mnS7iC7-D0YNvBSSMM0VXgFkE7fA1_OVA4Q-J6KidgIMtAEStWYcWUpW9IUjyYPQb2dT4JrVGXf0fP3xUiiLwjMCaVxAZXDx4BekWDw0NKIbdU3r3-RZFp1x5F_VSRy7MpriuRaVGmfPnShaOtgoewpX-xS4dk1TBYY1yzCLO8Q7xQUvU17mOZn7ChDv3pHCIJnvtrDICrrXoocNg6XY_S2_qffp6PXwbC7qHJSBSwjoRhwrLNS9sX_duxhzgH-uACcirwtpgFY8cSn3yZbuble2ZRSnUMBTetA6rzVkxTv6w6mg6h6ocyVLX_agMMGYTQxT3wpNpreBDrCkvDh_Gg_Bh3JCZTRwhykiD3euTqV9Jx_L3m00)
