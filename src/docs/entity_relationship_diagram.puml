@@ -1,0 +1,59 @@
+@startuml
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table(Usuarios) {
+    primary_key(id): INT
+    column(nombre): VARCHAR
+    column(password): VARCHAR
+    column(tipo): ENUM('Administrador', 'Encargado', 'Empleado')
+}
+
+table(Productos) {
+    primary_key(id): INT
+    column(nombre): VARCHAR
+    column(descripcion): TEXT
+    column(unidadDeMedida): VARCHAR
+    column(stock): INT
+    column(precioUnitario): DOUBLE
+    column(precio): DOUBLE
+    column(limiteMinimo): INT
+    column(cantidadDeReposicion): INT
+    column(fechaDeCreacion): DATE
+    column(fechaDeModificacion): DATE
+    foreign_key(categoria_id): INT <<FK>>
+}
+
+table(Categorias) {
+    primary_key(id): INT
+    column(nombre): VARCHAR
+    column(descripcion): TEXT
+    column(fechaDeCreacion): DATE
+    column(fechaDeModificacion): DATE
+}
+Productos }|--|| Categorias
+
+table(Proveedores) {
+    primary_key(id): INT
+    column(nombre): VARCHAR
+    column(email): VARCHAR
+    column(prioridad): INT
+    column(fechaDeCreacion): DATE
+    column(fechaDeModificacion): DATE
+    foreign_key(categoria_id): INT <<FK>>
+}
+Proveedores }|--|| Categorias
+
+table(Ventas) {
+    primary_key(id): INT
+    column(fecha): DATE
+    column(emailCliente): VARCHAR
+    column(total): DOUBLE
+    foreign_key(usuario_id): INT <<FK>>
+}
+Ventas }|--|| Usuarios
+Ventas }|--|{ Productos
+
+@enduml

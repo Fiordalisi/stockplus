@@ -1,0 +1,27 @@
+@startuml
+actor encargado
+boundary ConsolaStockplus
+control CargarProveedor
+entity Proveedor
+entity Categoría
+encargado -> ConsolaStockplus: Selecciona Proveedores
+activate ConsolaStockplus
+ConsolaStockplus --> encargado: Muestra el menú de Proveedores
+encargado -> ConsolaStockplus: Selecciona Cargar Nuevo Proveedor
+ConsolaStockplus --> encargado: Solicita datos
+encargado -> ConsolaStockplus: Ingresa datos
+ConsolaStockplus -> CargarProveedor: Valida datos
+activate CargarProveedor
+CargarProveedor -> Categoría: Busca categoría
+activate Categoría
+Categoría --> CargarProveedor: Devuelve información
+deactivate Categoría
+CargarProveedor -> Proveedor: Carga nuevo Proveedor
+activate Proveedor
+Proveedor --> CargarProveedor: Confirma
+deactivate Proveedor
+CargarProveedor --> ConsolaStockplus: Confirma operación
+deactivate CargarProveedor
+ConsolaStockplus --> encargado: Muestra mensaje de confirmación
+deactivate ConsolaStockplus
+@enduml

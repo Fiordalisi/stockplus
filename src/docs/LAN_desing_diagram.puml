@@ -1,0 +1,40 @@
+@startuml
+title Red Local - Stockplus
+
+skinparam cloud {
+  BackgroundColor LightGoldenRodYellow
+  BorderColor DarkOrange
+  FontColor Black
+  Shadowing true
+}
+
+skinparam rectangle {
+  BackgroundColor lightgrey
+  BorderColor darkSlateGray
+  FontColor black
+  Shadowing true
+}
+
+skinparam card {
+  BackgroundColor lightgrey
+  BorderColor darkSlateGray
+  FontColor black
+  Shadowing true
+}
+
+rectangle "PC Administrador\n(Gestión de Usuarios)" as PC_Admin
+rectangle "PC Empleado\n(Registro de Ventas y Consulta de Stock)" as PC_Empleado
+rectangle "PC Encargado\n(Gestión de Stock)" as PC_Encargado
+
+card "Switch" as Switch
+card "Router" as Router
+database "Servidor Local\n(Base de Datos MySQL y Sistema)" as Servidor
+cloud Internet
+
+PC_Admin --> Switch
+PC_Empleado --> Switch
+PC_Encargado --> Switch
+Switch --> Servidor
+Switch --> Router
+Router --> Internet
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+cloud "Cliente Web" {
+    [Navegador Web]
+}
+
+node "Servidor de Aplicaciones" {
+    [Gestión de Usuarios]
+    [Gestión de Productos y Proveedores]
+    [Gestión de Ventas]
+}
+
+database "Servidor de Base de Datos" {
+    [Base de Datos MySQL]
+}
+
+[Navegador Web] --> [Gestión de Usuarios] : Solicita registro/inicio de sesión
+[Navegador Web] --> [Gestión de Productos y Proveedores] : Consulta productos/proveedores
+[Navegador Web] --> [Gestión de Ventas] : Realiza transacciones
+
+[Gestión de Usuarios] --> [Base de Datos MySQL] : Accede a datos de usuario
+[Gestión de Productos y Proveedores] --> [Base de Datos MySQL] : Accede a información de productos y proveedores
+[Gestión de Ventas] --> [Base de Datos MySQL] : Guarda información de ventas
+
+note right of [Gestión de Usuarios]
+    La gestión de usuarios permite registrar nuevos usuarios y autenticar
+    a los existentes. Los datos se almacenan en la base de datos para
+    futuras referencias.
+end note
+
+note right of [Gestión de Ventas]
+    La gestión de ventas registra cada transacción realizada por los empleados,
+    accediendo a los productos disponibles y vinculando la información
+    con la base de datos.
+end note
+@enduml

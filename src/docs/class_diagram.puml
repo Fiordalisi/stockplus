@@ -1,0 +1,108 @@
+@startuml
+class Usuario {
+    +id: int
+    +nombre: String
+    -crear(): void
+}
+
+Usuario <|-- Administrador
+Usuario <|-- Encargado
+Usuario <|-- Empleado
+
+class Administrador {
+    -crearUsuario(): void
+    -personalizarMensaje(): void
+}
+
+class Encargado {
+    -registrarProveedor(): void
+    -registrarProducto(): void
+    -registrarCategoria(): void
+    -listarProductos(): List<Producto>
+    -listarProveedores(): List<Proveedor>
+    -listarCategorias(): List<Categoria>
+    -eliminarProducto(): void
+    -eliminarProveedor(): void
+    -eliminarCategoria(): void
+    -consultarProducto(): Producto
+    -consultarProveedor(): Proveedor
+    -modificarProveedor(): void
+    -modificarProducto(): void
+    -modificarCategoria():void
+}
+
+class Empleado {
+    -registrarVenta(): void
+    -listarProductos(): List<Producto>
+    -consultarProducto(): Producto
+}
+
+class Categoria {
+    -crear(): void
+    -obtener(): Categoria
+    -eliminar(): void
+}
+
+class Producto {
+    -crear(): void
+    -obtener(): Producto
+    -eliminar(): void
+}
+
+class Proveedor {
+    -crear(): void
+    -obtener(): Proveedor
+    -eliminar(): void
+}
+
+class Categoria {
+    +id: int
+    +nombre: String
+    +descripcion: String
+    +fechaDeCreacion: Date
+    +fechaDeModificacion: Date
+}
+
+class Venta {
+    -crear(): void
+}
+
+class Producto {
+    +id: int
+    +nombre: String
+    +descripcion: String
+    +unidadDeMedida: String
+    +stock: int
+    +precioUnitario: double
+    +precio: double
+    +categoria: Categoria
+    +limiteMinimo: int
+    +cantidadDeReposición: int
+    +fechaDeCreacion: Date
+    +fechaDeModificacion: Date
+}
+
+Producto "1" --> "1" Categoria
+
+class Proveedor {
+    +id: int
+    +nombre: String
+    +email:
+    +categoria: Categoria
+    +fechaDeCreacion: Date
+    +fechaDeModificacion: Date
+}
+
+Proveedor "1" --> "1" Categoria
+
+class Venta {
+    +id: int
+    +fecha: Date
+    +emailCliente: String
+    +productos: List<Productos>
+    +total: double
+}
+
+Venta "1" --> "1" Empleado
+Venta "1" --> "*" Producto
+@enduml

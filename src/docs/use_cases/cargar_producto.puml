@@ -1,0 +1,27 @@
+@startuml
+actor encargado
+boundary ConsolaStockplus
+control CargarProducto
+entity Producto
+entity Categoría
+encargado -> ConsolaStockplus: Selecciona Productos
+activate ConsolaStockplus
+ConsolaStockplus --> encargado: Muestra el menú de productos
+encargado -> ConsolaStockplus: Selecciona Cargar Nuevo Producto
+ConsolaStockplus --> encargado: Solicita datos
+encargado -> ConsolaStockplus: Ingresa datos
+ConsolaStockplus -> CargarProducto: Valida datos
+activate CargarProducto
+CargarProducto -> Categoría: Busca categoría
+activate Categoría
+Categoría --> CargarProducto: Devuelve información
+deactivate Categoría
+CargarProducto -> Producto: Carga nuevo producto
+activate Producto
+Producto --> CargarProducto: Confirma
+deactivate Producto
+CargarProducto --> ConsolaStockplus: Confirma operación
+deactivate CargarProducto
+ConsolaStockplus --> encargado: Muestra mensaje de confirmación
+deactivate ConsolaStockplus
+@enduml
