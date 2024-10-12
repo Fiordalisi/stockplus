@@ -1,6 +1,9 @@
 package internal.usuario;
 
 import internal.ANSI;
+import internal.repositorio.RepoCategoria;
+import internal.repositorio.RepoProducto;
+import internal.repositorio.RepoProveedor;
 
 import java.util.Scanner;
 
@@ -12,7 +15,7 @@ public class Administrador extends Usuario{
 
     public Usuario crearUsuario() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\nSeleccione el tipo de user que desea craer: ");
+        System.out.println("\nSeleccione el tipo de user que desea crear: ");
         System.out.println("1. Admin");
         System.out.println("2. Empleado");
         System.out.println("3. Encargado");
@@ -30,10 +33,15 @@ public class Administrador extends Usuario{
             case 2:
                 return new Empleado(nombre, contra);
             case 3:
-                return new Encargado(nombre, contra);
+                return new Encargado(nombre, contra, new RepoProducto(),
+                        new RepoProveedor(), new RepoCategoria());
             default:
                 System.out.println(ANSI.YELLOW.getCode() + "Opcion invalida. Cerrando..." + ANSI.RESET.getCode());
                 return null;
         }
+    }
+
+    public void modificarMensaje() {
+
     }
 }

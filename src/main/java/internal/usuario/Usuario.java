@@ -11,4 +11,8 @@ public abstract class Usuario {
         this.contra = contra;
         this.tipo = tipo;
     }
+
+    public String getTipo() {
+        return this.tipo;
+    }
 }

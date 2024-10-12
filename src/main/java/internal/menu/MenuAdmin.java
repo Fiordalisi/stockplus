@@ -29,14 +29,15 @@ public class MenuAdmin implements IMenu{
                 opcion = Integer.parseInt(entrada);
 
                 if (opcion < 0 || opcion > 2) {
-                    System.out.println("Opción no válida.");
+                    Mensajes.errorOpcionInvalida(0,2);
                 } else {
                     switch (opcion) {
                         case 1:
                             administrador.crearUsuario();
-                            return;
+                            break;
                         case 2:
-                            //todo: agregar
+                            administrador.modificarMensaje();
+                            break;
                         case 0:
                             System.out.println("Saliendo del programa...");
                             break;

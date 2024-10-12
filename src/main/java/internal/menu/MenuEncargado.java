@@ -61,7 +61,7 @@ public class MenuEncargado implements IMenu {
         int opcion = -1;
         Scanner sc = new Scanner(System.in);
         do {
-            Mensajes.mostrarOpciones("producto");
+            Mensajes.mostrarOpciones("producto", true);
             String entrada = sc.next();
             try {
                 opcion = Integer.parseInt(entrada);
@@ -102,7 +102,7 @@ public class MenuEncargado implements IMenu {
         int opcion = -1;
         Scanner sc = new Scanner(System.in);
         do {
-            Mensajes.mostrarOpciones("proveedor");
+            Mensajes.mostrarOpciones("proveedor", true);
             String entrada = sc.next();
             try {
                 opcion = Integer.parseInt(entrada);
@@ -143,7 +143,7 @@ public class MenuEncargado implements IMenu {
         int opcion = -1;
         Scanner sc = new Scanner(System.in);
         do {
-            Mensajes.mostrarOpciones("categoria");
+            Mensajes.mostrarOpciones("categoria", true);
             String entrada = sc.next();
             try {
                 opcion = Integer.parseInt(entrada);
@@ -162,7 +162,7 @@ public class MenuEncargado implements IMenu {
                             encargado.modificarCategoria();
                             break;
                         case 4:
-                            encargado.eliminarProveedor();
+                            encargado.eliminarCategoria();
                             break;
                         case 0:
                             System.out.println("Saliendo del programa...");
