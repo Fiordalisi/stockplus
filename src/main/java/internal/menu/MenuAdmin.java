@@ -18,12 +18,7 @@ public class MenuAdmin implements IMenu{
         int opcion = -1;
         Scanner sc = new Scanner(System.in);
         do {
-
-            System.out.println("\nSeleccione una opción:");
-            System.out.println("1. Crear usuario");
-            System.out.println("2. Personalizar mensaje para los clientes");
-            System.out.println("0. Salir");
-            System.out.print("Ingrese su opción: ");
+            Mensajes.mostrarOpciones("admin", true);
             String entrada = sc.next();
             try {
                 opcion = Integer.parseInt(entrada);
@@ -51,7 +46,5 @@ public class MenuAdmin implements IMenu{
             System.out.println();
 
         } while (opcion != 0);
-
-        sc.close();
     }
 }

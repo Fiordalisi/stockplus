@@ -13,6 +13,14 @@ public abstract class Usuario {
     }
 
     public String getTipo() {
-        return this.tipo;
+        return tipo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getContra() {
+        return contra;
     }
 }

@@ -1,9 +1,5 @@
 package internal;
 
-import internal.menu.IMenu;
-import internal.menu.MenuAdmin;
-import internal.menu.MenuEmpleado;
-import internal.menu.MenuEncargado;
 import internal.repositorio.RepoCategoria;
 import internal.repositorio.RepoProducto;
 import internal.repositorio.RepoProveedor;
@@ -13,6 +9,7 @@ import internal.usuario.Empleado;
 import internal.usuario.Encargado;
 import internal.usuario.Usuario;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Login {
@@ -25,15 +22,35 @@ public class Login {
 
     public Usuario iniciarSesion() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese nombre: ");
-        String nombre = scanner.next();
-        switch (nombre) {
-            case "admin":
-                return new Administrador(nombre, "");
-            case "empleado":
-               return new Empleado(nombre, "");
+        String nombre, contra;
+        Usuario usuario;
+
+        do {
+            System.out.println("Ingrese nombre: ");
+            nombre = scanner.next();
+            usuario = repoUsuario.buscar(nombre);
+            if(usuario == null) {
+                Mensajes.errorUsuarioExistente(nombre, false);
+            }
+        } while (usuario == null);
+
+        do {
+            System.out.println("\nIngrese contraseña: ");
+            contra = scanner.next();
+            if(!Objects.equals(usuario.getContra(), contra)){
+                Mensajes.errorContraIncorrecta();
+            }
+        } while (!Objects.equals(usuario.getContra(), contra));
+
+        switch (usuario.getTipo()) {
+            case "ADMIN":
+                Administrador admin = new Administrador(nombre, contra);
+                admin.setRepoUsuario(new RepoUsuario());
+                return admin;
+            case "EMPLEADO":
+               return new Empleado(nombre, contra);
             default:
-               return new Encargado(nombre, "",
+               return new Encargado(nombre, contra,
                        new RepoProducto(), new RepoProveedor(), new RepoCategoria());
         }
     }

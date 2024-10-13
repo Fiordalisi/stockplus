@@ -1,44 +1,69 @@
 package internal.usuario;
 
 import internal.ANSI;
+import internal.Mensajes;
 import internal.repositorio.RepoCategoria;
 import internal.repositorio.RepoProducto;
 import internal.repositorio.RepoProveedor;
+import internal.repositorio.RepoUsuario;
 
 import java.util.Scanner;
 
-public class Administrador extends Usuario{
+public class Administrador extends Usuario {
+
+    private RepoUsuario repoUsuario;
 
     public Administrador(String name, String contra) {
         super(name, contra, "ADMIN");
     }
 
+    public void setRepoUsuario(RepoUsuario repoUsuario){
+        this.repoUsuario = repoUsuario;
+    }
+
     public Usuario crearUsuario() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nSeleccione el tipo de user que desea crear: ");
-        System.out.println("1. Admin");
-        System.out.println("2. Empleado");
-        System.out.println("3. Encargado");
+        System.out.println("1. Empleado");
+        System.out.println("2. Encargado");
         System.out.println("0. Salir");
 
-        int tipo = scanner.nextInt();
-        System.out.println("Ingrese el nombre: ");
-        String nombre = scanner.next();
+        int opcion = -1;
+        do {
+            try {
+                opcion = Integer.parseInt(scanner.next());
+                if (opcion < 0 || opcion > 2) {
+                    Mensajes.errorOpcionInvalida(0, 2);
+                }
+            } catch (NumberFormatException e) {
+                Mensajes.errorFormatoInvalido();
+            }
+        } while (opcion < 0 || opcion > 2);
+
+
+        String nombre;
+        do {
+            System.out.println("Ingrese el nombre: ");
+            nombre = scanner.next();
+            if(repoUsuario.existe(nombre)) {
+                Mensajes.errorUsuarioExistente(nombre, true);
+            }
+        } while (repoUsuario.existe(nombre));
+
         System.out.println("Ingrese una contraseña: ");
         String contra = scanner.next();
-        scanner.close();
-        switch (tipo) {
+
+        switch (opcion) {
             case 1:
-                return new Administrador(nombre, contra);
+                repoUsuario.crear(new Empleado(nombre, contra));
+                break;
             case 2:
-                return new Empleado(nombre, contra);
-            case 3:
-                return new Encargado(nombre, contra, new RepoProducto(),
-                        new RepoProveedor(), new RepoCategoria());
-            default:
-                System.out.println(ANSI.YELLOW.getCode() + "Opcion invalida. Cerrando..." + ANSI.RESET.getCode());
-                return null;
+                repoUsuario.crear(new Encargado(nombre, contra, new RepoProducto(),
+                        new RepoProveedor(), new RepoCategoria()));
+                break;
         }
+
+        return null;
     }
 
     public void modificarMensaje() {

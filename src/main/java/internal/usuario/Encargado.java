@@ -94,7 +94,6 @@ public class Encargado extends Usuario {
             categoria = sc.nextLine();
             if (!repoCategoria.existeCategoria(categoria)) {
                 Mensajes.errorCategoriaExistente(categoria);
-
             }
         } while (!repoCategoria.existeCategoria(categoria));
 
@@ -139,7 +138,6 @@ public class Encargado extends Usuario {
         nuevaDesc = producto.getDescripcion();
         nuevaUnidad = producto.getUnidadDeMedida();
         nuevoPrecio = producto.getPrecioUnitario();
-
 
         int opcion = -1;
         do {
@@ -226,15 +224,15 @@ public class Encargado extends Usuario {
      * PROVEEDORES
      */
 
+    public void cargarProveedor() {
+
+    }
+
     public Producto consultarProveedor() {
         return null;
     }
 
     public void listarProveedores() {
-    }
-
-    public void cargarProveedor() {
-
     }
 
     public void eliminarProveedor() {

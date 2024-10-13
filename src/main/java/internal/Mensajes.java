@@ -11,10 +11,13 @@ public class Mensajes {
                     "Modificar proveedor", "Eliminar proveedor"},
             "categoria", new String[]{"Cargar nueva categoria", "Listar categorias",
                     "Modificar categoria", "Eliminar categoria"},
+            "admin", new String[]{"Crear usuario", "Personalizar mensaje para los clientes"},
             "opciones_modificable_producto", new String[]{"Descripcion", "Unidad de medida", "Precio Unitario", "Confirmar modificaciones"},
             "titulo_menu_producto", new String[]{"<<<<<< MENU PRODUCTOS >>>>>>"},
             "titulo_menu_proveedor", new String[]{"<<<<<< MENU PROVEEDORES >>>>>>"},
-            "titulo_menu_categoria", new String[]{"<<<<<< MENU CATEGORIAS >>>>>>"}
+            "titulo_menu_categoria", new String[]{"<<<<<< MENU CATEGORIAS >>>>>>"},
+            "titulo_menu_admin", new String[]{"<<<<<< MENU ADMIN >>>>>>"}
+
     );
 
     public static void stockplusArt() {
@@ -44,7 +47,6 @@ public class Mensajes {
 
     public static void errorEntradaVacia(){
         System.out.printf("%sValor invalido. Ingrese nuevamente%s\n", ANSI.YELLOW.getCode(), ANSI.RESET.getCode());
-
     }
 
     public static void errorCategoriaExistente(String nombre) {
@@ -61,7 +63,15 @@ public class Mensajes {
         System.out.printf("%s\nNo se puedo cargar el producto. Debe intentarlo nuevamente%s\n", ANSI.YELLOW.getCode(), ANSI.RESET.getCode());
     }
 
+    public static void errorUsuarioExistente(String nombre, boolean existe) {
+        System.out.printf("%s%s existe un usuario con nombre %s registrado en el sistema.\n%s",
+                ANSI.YELLOW.getCode(),  existe? "Ya": "No", nombre, ANSI.RESET.getCode());
+    }
 
+    public static void errorContraIncorrecta() {
+        System.out.printf("%sContraseña incorrecta.\n%s",
+                ANSI.RED.getCode(), ANSI.RESET.getCode());
+    }
 
     public static void mostrarOpciones(String entidad, boolean mostrarTitulo) {
         // casos donde no es necesario un titulo para motrar opciones
@@ -69,7 +79,6 @@ public class Mensajes {
             String titulo = OPCIONES.get(String.format("titulo_menu_%s",entidad))[0];
             System.out.printf("\n%s %s", titulo, ANSI.BLUE.getCode());
         }
-
 
         String[] opciones = OPCIONES.get(entidad);
         for (int i = 0; i < opciones.length; i++) {

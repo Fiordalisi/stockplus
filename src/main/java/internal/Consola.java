@@ -18,6 +18,7 @@ public class Consola {
         Usuario usuario = login.iniciarSesion();
         IMenu menu = null;
 
+
         if (usuario instanceof Administrador) {
             menu = new MenuAdmin((Administrador) usuario);
         } else if (usuario instanceof Encargado) {
@@ -28,6 +29,6 @@ public class Consola {
 
         menu.mostrar();
 
-        System.out.println("Gracias por utilizar stockplus");
+        System.out.println(ANSI.GREEN.getCode() + "Gracias por utilizar stockplus" + ANSI.RESET.getCode());
     }
 }
