@@ -2,7 +2,9 @@ package internal.usuario;
 
 import internal.ANSI;
 import internal.Mensajes;
+import internal.Utils;
 import internal.negocio.Producto;
+import internal.negocio.Proveedor;
 import internal.repositorio.RepoCategoria;
 import internal.repositorio.RepoProducto;
 import internal.repositorio.RepoProveedor;
@@ -42,7 +44,6 @@ public class Encargado extends Usuario {
             }
         } while (repoProducto.buscar(nombre) != null);
 
-
         do {
             System.out.println("Ingrese stock del producto: ");
             String valor = sc.next();
@@ -57,7 +58,6 @@ public class Encargado extends Usuario {
                 return;
             }
         } while (stock <= 0);
-
 
         sc.nextLine();
 
@@ -88,7 +88,6 @@ public class Encargado extends Usuario {
 
         sc.nextLine();
 
-
         do {
             System.out.println("Ingrese categoria: ");
             categoria = sc.nextLine();
@@ -97,12 +96,11 @@ public class Encargado extends Usuario {
             }
         } while (!repoCategoria.existeCategoria(categoria));
 
-
         Date fechaActual = new Date();
         Producto nuevo = new Producto(nombre, desc, unidad, stock, precio,
                 categoria, fechaActual, fechaActual);
 
-        repoProducto.cargarNuevoProducto(nuevo);
+        repoProducto.agregar(nuevo);
 
         System.out.println(ANSI.GREEN.getCode() + "\nSe ha registrado el producto exitosamente" + ANSI.RESET.getCode());
     }
@@ -194,11 +192,9 @@ public class Encargado extends Usuario {
             }
 
         } while (opcion != 0);
-
-
+        
         repoProducto.modificar(producto, nuevaDesc, nuevaUnidad, nuevoPrecio);
-
-        System.out.println(ANSI.GREEN.getCode() + "\nSe han guardado las modificaciones exitosamente" + ANSI.RESET.getCode());
+        Mensajes.okModificacionesGuargadas();
     }
 
     public void consultarProducto() {
@@ -215,7 +211,7 @@ public class Encargado extends Usuario {
     }
 
     public void listarProductos() {
-        for (Producto p : this.repoProducto.listarProductos()) {
+        for (Producto p : this.repoProducto.obtenerTodos()) {
             System.out.println("\n" + p.toString());
         }
     }
@@ -225,21 +221,92 @@ public class Encargado extends Usuario {
      */
 
     public void cargarProveedor() {
+        Scanner sc = new Scanner(System.in);
+        String nombre, categoria, email;
 
+        do {
+            System.out.println("\nIngrese nombre del producto: ");
+            nombre = sc.nextLine();
+            if (repoProveedor.buscar(nombre) != null) {
+                Mensajes.errorBuscarProveedor(nombre, true);
+            }
+        } while (repoProveedor.buscar(nombre) != null);
+
+        do {
+            System.out.println("\nIngrese categoria: ");
+            categoria = sc.nextLine();
+            if (!repoCategoria.existeCategoria(categoria)) {
+                Mensajes.errorCategoriaExistente(categoria);
+            }
+        } while (!repoCategoria.existeCategoria(categoria));
+
+        do {
+            System.out.println("Ingrese correo electronico: ");
+            email = sc.nextLine();
+            if (!Utils.emailValido(email)) {
+                Mensajes.errorEmailInvalido();
+            }
+        } while (!Utils.emailValido(email));
+
+        repoProveedor.agregar(new Proveedor(nombre, categoria, email, new Date(), new Date()));
+        System.out.println(ANSI.GREEN.getCode() + "\nSe ha registrado el proveedor exitosamente" + ANSI.RESET.getCode());
     }
 
-    public Producto consultarProveedor() {
-        return null;
+    public void consultarProveedor() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nIngrese nombre del proveedor: ");
+        String nombre = sc.nextLine();
+        Proveedor proveedor = repoProveedor.buscar(nombre);
+        if (proveedor == null) {
+            Mensajes.errorBuscarProveedor(nombre, false);
+            return;
+        }
+
+        System.out.println(proveedor);
     }
 
     public void listarProveedores() {
+        repoProveedor.obtenerTodos().forEach(proveedor -> System.out.println(proveedor.toString()));
     }
 
     public void eliminarProveedor() {
+        Scanner sc = new Scanner(System.in);
+        Proveedor proveedor;
+        do {
+            System.out.println("\nIngrese nombre del proveedor: ");
+            String nombre = sc.nextLine();
+            proveedor = repoProveedor.buscar(nombre);
+            if (proveedor == null) {
+                Mensajes.errorBuscarProveedor(nombre, false);
+            }
+        } while (proveedor == null);
 
+        repoProveedor.eliminar(proveedor);
+        System.out.println(ANSI.GREEN.getCode() + "\nEl proveedor ha sido eliminado exitosamente" + ANSI.RESET.getCode());
     }
 
     public void modificarProveedor() {
+        Scanner sc = new Scanner(System.in);
+        Proveedor proveedor;
+        String email;
+        do {
+            System.out.println("\nIngrese nombre del proveedor: ");
+            String nombre = sc.nextLine();
+            proveedor = repoProveedor.buscar(nombre);
+            if (proveedor == null) {
+                Mensajes.errorBuscarProveedor(nombre, false);
+            }
+        } while (proveedor == null);
+
+        do {
+            System.out.println("Ingrese el nuevo correo electronico: ");
+            email = sc.nextLine();
+            if (!Utils.emailValido(email)) {
+                Mensajes.errorEmailInvalido();
+            }
+        } while (!Utils.emailValido(email));
+
+        repoProveedor.modificar(proveedor, email);
 
     }
 

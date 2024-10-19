@@ -113,19 +113,19 @@ public class MenuEncargado implements IMenu {
                     switch (opcion) {
                         case 1:
                             encargado.cargarProveedor();
-                            return;
+                            break;
                         case 2:
                             encargado.consultarProveedor();
-                            return;
+                            break;
                         case 3:
                             encargado.listarProveedores();
-                            return;
+                            break;
                         case 4:
                             encargado.modificarProveedor();
-                            return;
+                            break;
                         case 5:
                             encargado.eliminarProveedor();
-                            return;
+                            break;
                         case 0:
                             System.out.println("Saliendo del programa...");
                             break;

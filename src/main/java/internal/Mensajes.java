@@ -73,6 +73,16 @@ public class Mensajes {
                 ANSI.RED.getCode(), ANSI.RESET.getCode());
     }
 
+    public static void errorEmailInvalido() {
+        System.out.printf("%sEl correo ingresado no es valido.\n%s",
+                ANSI.RED.getCode(), ANSI.RESET.getCode());
+    }
+
+    public static void errorBuscarProveedor(String nombre, boolean existe) {
+        System.out.printf("%sEl proveedor %s %s existe en el sistema. Recuerde verificar los proveedores cargados.\n%s",
+                ANSI.YELLOW.getCode(), nombre, (existe? "ya":"no"), ANSI.RESET.getCode());
+    }
+
     public static void mostrarOpciones(String entidad, boolean mostrarTitulo) {
         // casos donde no es necesario un titulo para motrar opciones
         if (mostrarTitulo) {
@@ -87,5 +97,9 @@ public class Mensajes {
 
         System.out.printf("\n0) Volver %s", ANSI.RESET.getCode());
         System.out.print("\nIngrese su opción: ");
+    }
+
+    public static void okModificacionesGuargadas(){
+        System.out.println(ANSI.GREEN.getCode() + "\nSe han guardado las modificaciones exitosamente" + ANSI.RESET.getCode());
     }
 }

@@ -27,11 +27,11 @@ public class RepoProducto {
                 new Date(), new Date()));
     }
 
-    public List<Producto> listarProductos() {
+    public List<Producto> obtenerTodos() {
         return productos;
     }
 
-    public void cargarNuevoProducto(Producto producto) {
+    public void agregar(Producto producto) {
         productos.add(producto);
     }
 

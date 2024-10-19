@@ -18,7 +18,6 @@ public class Consola {
         Usuario usuario = login.iniciarSesion();
         IMenu menu = null;
 
-
         if (usuario instanceof Administrador) {
             menu = new MenuAdmin((Administrador) usuario);
         } else if (usuario instanceof Encargado) {

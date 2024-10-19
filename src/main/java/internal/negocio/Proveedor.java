@@ -1,5 +1,7 @@
 package internal.negocio;
 
+import internal.Utils;
+
 import java.util.Date;
 
 public class Proveedor {
@@ -20,12 +22,21 @@ public class Proveedor {
 
     @Override
     public String toString() {
-        return "Proveedor{" +
-                "nombre='" + nombre + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", email='" + email + '\'' +
-                ", fechaDeCreacion=" + fechaDeCreacion +
-                ", fechaDeModificacion=" + fechaDeModificacion +
-                '}';
+        return String.format("Nombre: %s, Categoria: %s, Email: %s, FechaDeCreacion: %s, FechaDeModificacion: %s",
+                nombre, categoria, email, Utils.formatearFecha(fechaDeCreacion), Utils.formatearFecha(fechaDeModificacion));
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void actualizarFecha() {
+        fechaDeModificacion = new Date();
+    }
+
+
 }
