@@ -1,12 +1,14 @@
 package internal;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Mensajes {
 
-    public static final Map<String, String[]> OPCIONES = Map.of(
+    /*public static final Map<String, String[]> OPCIONES = Map.of(
             "producto", new String[]{"Cargar nuevo producto", "Consultar producto", "Listar productos",
                     "Modificar producto", "Eliminar producto"},
+            "producto_empleado", new String[]{"Consultar producto", "Listar productos"},
             "proveedor", new String[]{"Cargar nuevo proveedor", "Consultar proveedor", "Listar proveedores",
                     "Modificar proveedor", "Eliminar proveedor"},
             "categoria", new String[]{"Cargar nueva categoria", "Listar categorias",
@@ -17,8 +19,25 @@ public class Mensajes {
             "titulo_menu_proveedor", new String[]{"<<<<<< MENU PROVEEDORES >>>>>>"},
             "titulo_menu_categoria", new String[]{"<<<<<< MENU CATEGORIAS >>>>>>"},
             "titulo_menu_admin", new String[]{"<<<<<< MENU ADMIN >>>>>>"}
+    );*/
 
-    );
+    public static final Map<String, String[]> OPCIONES = new HashMap<>();
+
+    static {
+        OPCIONES.put("producto", new String[]{"Cargar nuevo producto", "Consultar producto", "Listar productos",
+                "Modificar producto", "Eliminar producto"});
+        OPCIONES.put("producto_empleado", new String[]{"Consultar producto", "Listar productos"});
+        OPCIONES.put("proveedor", new String[]{"Cargar nuevo proveedor", "Consultar proveedor", "Listar proveedores",
+                "Modificar proveedor", "Eliminar proveedor"});
+        OPCIONES.put("categoria", new String[]{"Cargar nueva categoria", "Listar categorias",
+                "Modificar categoria", "Eliminar categoria"});
+        OPCIONES.put("admin", new String[]{"Crear usuario", "Personalizar mensaje para los clientes"});
+        OPCIONES.put("opciones_modificable_producto", new String[]{"Descripcion", "Unidad de medida", "Precio Unitario", "Confirmar modificaciones"});
+        OPCIONES.put("titulo_menu_producto", new String[]{"<<<<<< MENU PRODUCTOS >>>>>>"});
+        OPCIONES.put("titulo_menu_proveedor", new String[]{"<<<<<< MENU PROVEEDORES >>>>>>"});
+        OPCIONES.put("titulo_menu_categoria", new String[]{"<<<<<< MENU CATEGORIAS >>>>>>"});
+        OPCIONES.put("titulo_menu_admin", new String[]{"<<<<<< MENU ADMIN >>>>>>"});
+    }
 
     public static void stockplusArt() {
         System.out.println(ANSI.BLUE.getCode() + "░██████╗ ████████╗ ░█████╗░ ░█████╗ ░██╗░░██╗ ██████╗ ░██╗░░░░ ░██╗░░░██╗ ░██████╗");
@@ -27,6 +46,10 @@ public class Mensajes {
         System.out.println(ANSI.RED.getCode() + "░╚═══██╗░ ░░██║░░░ ██║░░██║ ██║░░██╗ ██╔═██╗ ░██╔═══╝ ░██║░░░░ ░██║░░░██║ ░╚═══██╗");
         System.out.println(ANSI.YELLOW.getCode() + "██████╔╝░ ░░██║░░░ ╚█████╔╝ ╚█████╔╝ ██║░╚██╗ ██║░░░░ ░███████╗ ╚██████╔╝ ██████╔╝");
         System.out.println(ANSI.BLUE.getCode() + "╚═════╝░░ ░░╚═╝░░░ ░╚════╝░ ░╚════╝ ░╚═╝░░╚═╝ ╚═╝░░░░ ░╚══════╝ ░╚═════╝ ░╚═════╝░" + ANSI.RESET.getCode());
+    }
+
+    public static void errorSuperaStock() {
+        System.out.printf("%sLa cantidad ingresada supera el stock del producto.%s\n", ANSI.YELLOW.getCode(), ANSI.RESET.getCode());
     }
 
     public static void errorFormatoInvalido() {
@@ -101,5 +124,9 @@ public class Mensajes {
 
     public static void okModificacionesGuargadas(){
         System.out.println(ANSI.GREEN.getCode() + "\nSe han guardado las modificaciones exitosamente" + ANSI.RESET.getCode());
+    }
+
+    public static void okVentaRegistrada(){
+        System.out.println(ANSI.GREEN.getCode() + "\nSe ha registrado la venta exitosamente" + ANSI.RESET.getCode());
     }
 }

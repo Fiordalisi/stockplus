@@ -22,7 +22,7 @@ public class RepoUsuario {
         Administrador admin = new Administrador("ADMIN", "111");
         admin.setRepoUsuario(this);
         usuarios.add(admin);
-        usuarios.add(new Empleado("EMPLEADO", "123456"));
+        usuarios.add(new Empleado("EMPLEADO", "123456", new RepoProducto()));
         usuarios.add(new Encargado("ENCARGADO", "123456",
                 new RepoProducto(), new RepoProveedor(), new RepoCategoria()));
     }

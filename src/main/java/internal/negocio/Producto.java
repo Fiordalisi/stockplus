@@ -65,6 +65,10 @@ public class Producto {
         return precioUnitario;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -79,6 +83,14 @@ public class Producto {
 
     public void actualizarFecha() {
         fechaDeModificacion = new Date();
+    }
+
+    public int getLimiteMinimo() {
+        return limiteMinimo;
+    }
+
+    public void actualizarStock(int cantidadVendida) {
+        stock -= cantidadVendida;
     }
 
     private int limiteMinimoDefault(int stock) {

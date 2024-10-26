@@ -48,7 +48,7 @@ public class Login {
                 admin.setRepoUsuario(new RepoUsuario());
                 return admin;
             case "EMPLEADO":
-               return new Empleado(nombre, contra);
+               return new Empleado(nombre, contra, new RepoProducto());
             default:
                return new Encargado(nombre, contra,
                        new RepoProducto(), new RepoProveedor(), new RepoCategoria());

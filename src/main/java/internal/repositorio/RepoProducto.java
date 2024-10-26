@@ -4,6 +4,7 @@ import internal.negocio.Producto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class RepoProducto {
@@ -53,6 +54,19 @@ public class RepoProducto {
 
     public void eliminar(Producto producto) {
         productos.remove(producto);
+    }
+
+    public List<Producto> actualizarStock(HashMap<String, Integer> vendidos) {
+        List<Producto> productosVendidos = new ArrayList<>();
+        for (int i = 0; i < productos.size(); i++) {
+            Producto producto = productos.get(i);
+            if (vendidos.containsKey(producto.getNombre())) {
+                int cantidadVendida = vendidos.get(producto.getNombre());
+                producto.actualizarStock(cantidadVendida);
+                productosVendidos.add(producto);
+            }
+        }
+        return productosVendidos;
     }
 
 }
