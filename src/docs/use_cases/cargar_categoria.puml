@@ -1,23 +1,23 @@
 @startuml
-actor encargado
-boundary ConsolaStockplus
-control CargarCategoria
-entity Categoria
-encargado -> ConsolaStockplus: Selecciona Categorias
-activate ConsolaStockplus
-ConsolaStockplus --> encargado: Muestra el menú de Categorias
-encargado -> ConsolaStockplus: Selecciona Cargar Nueva Categoria
-ConsolaStockplus --> encargado: Solicita datos
-encargado -> ConsolaStockplus: Ingresa datos
-ConsolaStockplus -> CargarCategoria: Valida datos
-activate CargarCategoria
-deactivate Categoria
-CargarCategoria -> Categoria: Carga nueva Categoria
-activate Categoria
-Categoria --> CargarCategoria: Confirma
-deactivate Categoria
-CargarCategoria --> ConsolaStockplus: Confirma operación
-deactivate CargarCategoria
-ConsolaStockplus --> encargado: Muestra mensaje de confirmación
-deactivate ConsolaStockplus
+actor usuario_encargado
+boundary MenuEncargado
+control Encargado
+entity RepoCategoria
+usuario_encargado -> MenuEncargado: Selecciona Categorias
+activate MenuEncargado
+MenuEncargado --> usuario_encargado: Muestra el menú de Categorias
+usuario_encargado -> MenuEncargado: Selecciona Cargar Nueva Categoria
+MenuEncargado --> usuario_encargado: Solicita datos
+usuario_encargado -> MenuEncargado: Ingresa datos
+MenuEncargado -> Encargado: Valida datos
+activate Encargado
+deactivate RepoCategoria
+Encargado -> RepoCategoria: Carga nueva Categoria
+activate RepoCategoria
+RepoCategoria --> Encargado: Confirma
+deactivate RepoCategoria
+Encargado --> MenuEncargado: Confirma operación
+deactivate Encargado
+MenuEncargado --> usuario_encargado: Muestra mensaje de confirmación
+deactivate MenuEncargado
 @enduml

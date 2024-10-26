@@ -1,27 +1,27 @@
 @startuml
-actor encargado
-boundary ConsolaStockplus
-control CargarProveedor
-entity Proveedor
-entity Categoría
-encargado -> ConsolaStockplus: Selecciona Proveedores
-activate ConsolaStockplus
-ConsolaStockplus --> encargado: Muestra el menú de Proveedores
-encargado -> ConsolaStockplus: Selecciona Cargar Nuevo Proveedor
-ConsolaStockplus --> encargado: Solicita datos
-encargado -> ConsolaStockplus: Ingresa datos
-ConsolaStockplus -> CargarProveedor: Valida datos
-activate CargarProveedor
-CargarProveedor -> Categoría: Busca categoría
-activate Categoría
-Categoría --> CargarProveedor: Devuelve información
-deactivate Categoría
-CargarProveedor -> Proveedor: Carga nuevo Proveedor
-activate Proveedor
-Proveedor --> CargarProveedor: Confirma
-deactivate Proveedor
-CargarProveedor --> ConsolaStockplus: Confirma operación
-deactivate CargarProveedor
-ConsolaStockplus --> encargado: Muestra mensaje de confirmación
-deactivate ConsolaStockplus
+actor usuario_encargado
+boundary MenuEncargado
+control Encargadoo
+entity RepoProveedor
+entity RepoCategoría
+usuario_encargado -> MenuEncargado: Selecciona Proveedores
+activate MenuEncargado
+MenuEncargado --> usuario_encargado: Muestra el menú de Proveedores
+usuario_encargado -> MenuEncargado: Selecciona Cargar Nuevo Proveedor
+MenuEncargado --> usuario_encargado: Solicita datos
+usuario_encargado -> MenuEncargado: Ingresa datos
+MenuEncargado -> Encargadoo: Valida datos
+activate Encargadoo
+Encargadoo -> RepoCategoría: Busca categoría
+activate RepoCategoría
+RepoCategoría --> Encargadoo: Devuelve información
+deactivate RepoCategoría
+Encargadoo -> RepoProveedor: Carga nuevo Proveedor
+activate RepoProveedor
+RepoProveedor --> Encargadoo: Confirma
+deactivate RepoProveedor
+Encargadoo --> MenuEncargado: Confirma operación
+deactivate Encargadoo
+MenuEncargado --> usuario_encargado: Muestra mensaje de confirmación
+deactivate MenuEncargado
 @enduml
