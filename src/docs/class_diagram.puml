@@ -1,8 +1,8 @@
 @startuml
-class Usuario {
+abstract class Usuario {
     +id: int
     +nombre: String
-    -crear(): void
+    +tipo: String
 }
 
 Usuario <|-- Administrador
@@ -38,21 +38,18 @@ class Empleado {
 }
 
 class Categoria {
-    -crear(): void
-    -obtener(): Categoria
-    -eliminar(): void
+    -getters(): void
+    -setters(): void
 }
 
 class Producto {
-    -crear(): void
-    -obtener(): Producto
-    -eliminar(): void
+    -getters(): void
+    -setters(): void
 }
 
 class Proveedor {
-    -crear(): void
-    -obtener(): Proveedor
-    -eliminar(): void
+    -getters(): void
+    -setters(): void
 }
 
 class Categoria {
@@ -64,7 +61,8 @@ class Categoria {
 }
 
 class Venta {
-    -crear(): void
+    -getters(): void
+    -setters(): void
 }
 
 class Producto {
@@ -105,4 +103,85 @@ class Venta {
 
 Venta "1" --> "1" Empleado
 Venta "1" --> "*" Producto
+
+interface IMenu {
+    +mostrar(): void
+}
+
+
+class MenuEmpleado {
+    +empleado: Empleado
+    -mostrar(): void
+}
+
+MenuEmpleado --> "1" Empleado
+
+class MenuEncargado {
+    +encargado: Encargado
+    -mostrar(): void
+}
+
+MenuEncargado --> "1" Encargado
+
+class MenuAdmin {
+    +administrador: Administrador
+    -mostrar(): void
+}
+
+MenuAdmin --> "1" Administrador
+
+' Relación de implementación
+IMenu <|.. MenuEmpleado
+IMenu <|.. MenuEncargado
+IMenu <|.. MenuAdmin
+
+class RepoCategoria {
+    +categorias: List<Categoria>
+    -existeCategoria(String): boolean
+}
+
+class RepoProducto {
+    +productos: List<Producto>
+    -obtenerTodos(): List<Producto>
+    -agregar(Producto): void
+    -buscar(String): Producto
+    -modificar(Producto, String, String, double): void
+    -eliminar(Producto): void
+    -actualizarStock(HashMap<String, Integer>): List<Producto>
+}
+
+class RepoProveedor {
+    +proveedores: List<Proveedor>
+    -obtenerTodos(): List<Proveedor>
+    -buscar(String): Proveedor
+    -agregar(Proveedor): void
+    -eliminar(Proveedor): void
+    -modificar(Proveedor, String): void
+}
+
+class RepoUsuario {
+    +usuarios: List<Usuario>
+    -existe(String): boolean
+    -buscar(String): Usuario
+    -crear(Usuario): void
+}
+
+class RepoVenta {
+    +ventas: List<Venta>
+}
+
+' *-- para demotrar que se componen de colecciones de esas clases.
+
+RepoCategoria *-- Categoria
+RepoProducto *-- Producto
+RepoProveedor *-- Proveedor
+RepoUsuario *-- Usuario
+RepoVenta *-- Venta
+
+Empleado --> RepoProducto
+Administrador --> RepoUsuario
+Encargado --> RepoCategoria
+Encargado --> RepoProducto
+Encargado --> RepoProveedor
+
 @enduml

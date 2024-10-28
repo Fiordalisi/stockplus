@@ -1,27 +1,27 @@
 @startuml
-actor encargado
-boundary ConsolaStockplus
-control CargarProducto
-entity Producto
-entity Categoría
-encargado -> ConsolaStockplus: Selecciona Productos
-activate ConsolaStockplus
-ConsolaStockplus --> encargado: Muestra el menú de productos
-encargado -> ConsolaStockplus: Selecciona Cargar Nuevo Producto
-ConsolaStockplus --> encargado: Solicita datos
-encargado -> ConsolaStockplus: Ingresa datos
-ConsolaStockplus -> CargarProducto: Valida datos
-activate CargarProducto
-CargarProducto -> Categoría: Busca categoría
-activate Categoría
-Categoría --> CargarProducto: Devuelve información
-deactivate Categoría
-CargarProducto -> Producto: Carga nuevo producto
-activate Producto
-Producto --> CargarProducto: Confirma
-deactivate Producto
-CargarProducto --> ConsolaStockplus: Confirma operación
-deactivate CargarProducto
-ConsolaStockplus --> encargado: Muestra mensaje de confirmación
-deactivate ConsolaStockplus
+actor usuario_encargado
+boundary MenuEncargado
+control Encargado
+entity RepoProducto
+entity RepoCategoría
+usuario_encargado -> MenuEncargado: Selecciona Productos
+activate MenuEncargado
+MenuEncargado --> usuario_encargado: Muestra el menú de productos
+usuario_encargado -> MenuEncargado: Selecciona Cargar Nuevo Producto
+MenuEncargado --> usuario_encargado: Solicita datos
+usuario_encargado -> MenuEncargado: Ingresa datos
+MenuEncargado -> Encargado: Valida datos
+activate Encargado
+Encargado -> RepoCategoría: Busca categoría
+activate RepoCategoría
+RepoCategoría --> Encargado: Devuelve información
+deactivate RepoCategoría
+Encargado -> RepoProducto: Carga nuevo producto
+activate RepoProducto
+RepoProducto --> Encargado: Confirma
+deactivate RepoProducto
+Encargado --> MenuEncargado: Confirma operación
+deactivate Encargado
+MenuEncargado --> usuario_encargado: Muestra mensaje de confirmación
+deactivate MenuEncargado
 @enduml

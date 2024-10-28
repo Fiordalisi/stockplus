@@ -1,64 +1,64 @@
 @startuml
-actor empleado
-boundary ConsolaStockplus
-control RegistrarVenta
-entity Producto
-entity Venta
-entity Proveedor
+actor usuario_empleado
+boundary MenuEmpleado
+control Empleado
+entity RepoProducto
+entity RepoVenta
+entity RepoProveedor
 
 
-empleado -> ConsolaStockplus: Selecciona Registrar Venta
-activate ConsolaStockplus
+usuario_empleado -> MenuEmpleado: Selecciona Registrar Venta
+activate MenuEmpleado
 loop n productos
-ConsolaStockplus -> empleado: Solicita nombre del producto
-empleado -> ConsolaStockplus: Ingresa nombre del producto
-ConsolaStockplus -> RegistrarVenta: Valida existencia del producto
-activate RegistrarVenta
-RegistrarVenta -> Producto: Consultar producto
-activate Producto
-Producto --> RegistrarVenta: Devuelve Información
-deactivate Producto
-RegistrarVenta --> ConsolaStockplus: Confirma existencia
-ConsolaStockplus -> empleado: Solicita cantidad
-empleado -> ConsolaStockplus: Ingresa cantidad
-ConsolaStockplus -> RegistrarVenta: Valida stock
-RegistrarVenta --> ConsolaStockplus: Confirma disponibilidad
-deactivate RegistrarVenta
-ConsolaStockplus --> empleado: Muestra mensaje de aceptación
+MenuEmpleado -> usuario_empleado: Solicita nombre del producto
+usuario_empleado -> MenuEmpleado: Ingresa nombre del producto
+MenuEmpleado -> Empleado: Valida existencia del producto
+activate Empleado
+Empleado -> RepoProducto: Consultar producto
+activate RepoProducto
+RepoProducto --> Empleado: Devuelve Información
+deactivate RepoProducto
+Empleado --> MenuEmpleado: Confirma existencia
+MenuEmpleado -> usuario_empleado: Solicita cantidad
+usuario_empleado -> MenuEmpleado: Ingresa cantidad
+MenuEmpleado -> Empleado: Valida stock
+Empleado --> MenuEmpleado: Confirma disponibilidad
+deactivate Empleado
+MenuEmpleado --> usuario_empleado: Muestra mensaje de aceptación
 end
 
-empleado -> ConsolaStockplus: Selecciona Finalizar
-ConsolaStockplus --> empleado: Muestra detalle de venta
-ConsolaStockplus -> empleado: Solicita correo electrónico del cliente
-empleado -> ConsolaStockplus: Ingresa correo electronico
-ConsolaStockplus -> RegistrarVenta: Valida correo electrónico
-activate RegistrarVenta
-RegistrarVenta --> ConsolaStockplus: Confirma correo electrónico
-ConsolaStockplus -> empleado: Solicita confirmación de venta
-empleado -> ConsolaStockplus: Confirma la venta
-ConsolaStockplus -> RegistrarVenta: Actualiza información
-RegistrarVenta -> Venta: Carga nueva venta
-activate Venta
-Venta --> RegistrarVenta: Confirma
-deactivate Venta
+usuario_empleado -> MenuEmpleado: Selecciona Finalizar
+MenuEmpleado --> usuario_empleado: Muestra detalle de venta
+MenuEmpleado -> usuario_empleado: Solicita correo electrónico del cliente
+usuario_empleado -> MenuEmpleado: Ingresa correo electronico
+MenuEmpleado -> Empleado: Valida correo electrónico
+activate Empleado
+Empleado --> MenuEmpleado: Confirma correo electrónico
+MenuEmpleado -> usuario_empleado: Solicita confirmación de venta
+usuario_empleado -> MenuEmpleado: Confirma la venta
+MenuEmpleado -> Empleado: Actualiza información
+Empleado -> RepoVenta: Carga nueva venta
+activate RepoVenta
+RepoVenta --> Empleado: Confirma
+deactivate RepoVenta
 loop n productos
-RegistrarVenta -> Producto: Actualiza stock
-activate Producto
-Producto --> RegistrarVenta: Confirma
-RegistrarVenta -> RegistrarVenta: Verifica limite minimo
+Empleado -> RepoProducto: Actualiza stock
+activate RepoProducto
+RepoProducto --> Empleado: Confirma
+Empleado -> Empleado: Verifica limite minimo
   alt#Gold #LightGreen alcanza limite minimo
 
-  RegistrarVenta -> Proveedor: Consultar Proveedor
-  Proveedor --> RegistrarVenta: Devuelve informacion
-  RegistrarVenta -> RegistrarVenta: Envia pedido al proveedor
+  Empleado -> RepoProveedor: Consultar Proveedor
+  RepoProveedor --> Empleado: Devuelve informacion
+  Empleado -> Empleado: Envia pedido al proveedor
  end
-deactivate Producto
+deactivate RepoProducto
 end
 
-RegistrarVenta -> RegistrarVenta: Envia correo de confirmación al cliente
-RegistrarVenta --> ConsolaStockplus: Confirma operación
-deactivate RegistrarVenta
-ConsolaStockplus --> empleado: Muestra mensaje de confirmación
+Empleado -> Empleado: Envia correo de confirmación al cliente
+Empleado --> MenuEmpleado: Confirma operación
+deactivate Empleado
+MenuEmpleado --> usuario_empleado: Muestra mensaje de confirmación
 
-deactivate ConsolaStockplus
+deactivate MenuEmpleado
 @enduml
