@@ -1,17 +1,23 @@
 package internal.repositorio;
 
+import internal.ANSI;
 import internal.negocio.Producto;
 import internal.negocio.Proveedor;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class RepoProveedor {
     private List<Proveedor> proveedores;
+    private Connection conn;
 
-    public RepoProveedor() {
+    public RepoProveedor(Connection conn) {
         this.proveedores = new ArrayList<>();
+        this.conn = conn;
         inicializarProveedores();
     }
 
@@ -44,5 +50,34 @@ public class RepoProveedor {
     public void modificar(Proveedor proveedorModificable, String email){
         proveedorModificable.setEmail(email);
         proveedorModificable.actualizarFecha();
+    }
+
+    public Proveedor buscarPorCategoria(int CatID) {
+        try {
+            Statement statement = conn.createStatement();
+
+            String query = String.format("SELECT * FROM Proveedores WHERE categoria_id = '%d'", CatID);
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if(resultSet.next()) {
+                String nombre = resultSet.getString("nombre");
+
+                String desc = resultSet.getString("descripcion");
+                String email = resultSet.getString("email");
+
+                Proveedor proveedor = new Proveedor(nombre, String.format("%d", CatID), email, new Date(), new Date());
+
+                return proveedor;
+            } else {
+                statement.close();
+                resultSet.close();
+                return null;
+            }
+
+        } catch (Exception e) {
+            System.out.println(ANSI.RED.getCode() + "Fallo al buscar proveedor: " + e + ANSI.RESET.getCode());
+        }
+
+        return null;
     }
 }

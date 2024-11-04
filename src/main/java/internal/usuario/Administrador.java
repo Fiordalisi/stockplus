@@ -55,11 +55,11 @@ public class Administrador extends Usuario {
 
         switch (opcion) {
             case 1:
-                repoUsuario.crear(new Empleado(nombre, contra, new RepoProducto()));
+                repoUsuario.crear(new Empleado(nombre, contra, new RepoProducto(null)));
                 break;
             case 2:
-                repoUsuario.crear(new Encargado(nombre, contra, new RepoProducto(),
-                        new RepoProveedor(), new RepoCategoria()));
+                repoUsuario.crear(new Encargado(nombre, contra, new RepoProducto(null),
+                        new RepoProveedor(null), new RepoCategoria(null)));
                 break;
         }
 

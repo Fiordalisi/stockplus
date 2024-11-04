@@ -9,15 +9,18 @@ import internal.usuario.Empleado;
 import internal.usuario.Encargado;
 import internal.usuario.Usuario;
 
+import java.sql.Connection;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Login {
 
     private RepoUsuario repoUsuario;
+    private Connection conn;
 
-    public Login(RepoUsuario repoUsuario) {
+    public Login(RepoUsuario repoUsuario, Connection conn) {
         this.repoUsuario = repoUsuario;
+        this.conn = conn;
     }
 
     public Usuario iniciarSesion() {
@@ -45,13 +48,14 @@ public class Login {
         switch (usuario.getTipo()) {
             case "ADMIN":
                 Administrador admin = new Administrador(nombre, contra);
-                admin.setRepoUsuario(new RepoUsuario());
+                //admin.setRepoUsuario(new RepoUsuario());
                 return admin;
             case "EMPLEADO":
-               return new Empleado(nombre, contra, new RepoProducto());
+               return new Empleado(nombre, contra, new RepoProducto(conn));
+               //return new Empleado(nombre, contra, new RepoProducto(this.conn));
             default:
                return new Encargado(nombre, contra,
-                       new RepoProducto(), new RepoProveedor(), new RepoCategoria());
+                       new RepoProducto(conn), new RepoProveedor(conn), new RepoCategoria(conn));
         }
     }
 

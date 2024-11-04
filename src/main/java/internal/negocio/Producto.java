@@ -89,6 +89,14 @@ public class Producto {
         return limiteMinimo;
     }
 
+    public void setLimiteMinimo(int limite) {
+        limiteMinimo = limite;
+    }
+
+    public void setCantidadDeReposicion(int cant) {
+        cantidadDeReposicion = cant;
+    }
+
     public void actualizarStock(int cantidadVendida) {
         stock -= cantidadVendida;
     }

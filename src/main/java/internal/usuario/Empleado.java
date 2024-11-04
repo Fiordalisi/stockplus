@@ -92,6 +92,8 @@ public class Empleado extends Usuario {
             Mensajes.okVentaRegistrada();
         }
 
+        //todo: resolver casos donde se supera el limite minimo y hay notificar al proveedor
+
     }
 
     private int validarCantidad(String entrada, int stock) {

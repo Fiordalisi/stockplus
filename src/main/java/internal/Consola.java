@@ -10,11 +10,22 @@ import internal.usuario.Empleado;
 import internal.usuario.Encargado;
 import internal.usuario.Usuario;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Consola {
     public static void main(String[] args)  {
         Mensajes.stockplusArt();
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+        }catch (Exception e) {
+            System.out.println(ANSI.RED.getCode()+"No se puede establecer conexion con la DB"+ANSI.RESET.getCode());
+            return;
+        }
 
-        Login login = new Login(new RepoUsuario());
+        Login login = new Login(new RepoUsuario(conn), conn);
         Usuario usuario = login.iniciarSesion();
         IMenu menu = null;
 
