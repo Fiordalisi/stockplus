@@ -5,15 +5,18 @@ import internal.Sender;
 import internal.negocio.Producto;
 import internal.repositorio.RepoCategoria;
 import internal.repositorio.RepoProducto;
+import internal.repositorio.RepoVenta;
 
 import java.util.*;
 
 public class Empleado extends Usuario {
     private RepoProducto repoProducto;
+    private RepoVenta repoVenta;
 
-    public Empleado(String name, String contra, RepoProducto repoProducto) {
-        super(name, contra, "EMPLEADO");
+    public Empleado(String name, String contra, int ID, RepoProducto repoProducto, RepoVenta repoVenta) {
+        super(name, contra, "EMPLEADO", ID);
         this.repoProducto = repoProducto;
+        this.repoVenta = repoVenta;
     }
 
     public void consultarProducto() {
@@ -88,9 +91,28 @@ public class Empleado extends Usuario {
         String entrada = sc.nextLine();
         if (Objects.equals(entrada, "0")) {
             List<Producto> productosVendidos = repoProducto.actualizarStock(vendidos);
+            // verifico los productos que alcanzaron el limite minimo
+            // en caso de encontrar se busca el mail del proveedor para enviar la notificacion
+            double totalFactura = 0;
+            for (int i = 0; i < productosVendidos.size(); i++) {
+                Producto producto = productosVendidos.get(i);
+                totalFactura += producto.getPrecioUnitario() * vendidos.get(producto.getNombre());
+                if(producto.superaLimiteMinimo()) {
+                    String email = repoProducto.mailProveedor(producto.getId());
+                    Sender.NotificarProveedor(email, producto);
+                }
+            }
+
             Sender.EnviarFactura(correoElectronico, productosVendidos, vendidos);
+            repoVenta.cargar(correoElectronico, totalFactura, getID(), productosVendidos);
+
             Mensajes.okVentaRegistrada();
+
         }
+
+
+
+        //todo: resolver casos donde se supera el limite minimo y hay notificar al proveedor
 
     }
 

@@ -9,15 +9,25 @@ import internal.usuario.Administrador;
 import internal.usuario.Empleado;
 import internal.usuario.Encargado;
 import internal.usuario.Usuario;
+import java.sql.Connection;
 
 public class Consola {
     public static void main(String[] args)  {
         Mensajes.stockplusArt();
+        Connection conn = null;
 
-        Login login = new Login(new RepoUsuario());
+        try {
+            conn = DatabaseConnection.getConnection();
+        }catch (Exception e) {
+            System.out.println(ANSI.RED.getCode()+"No se puede establecer conexion con la DB"+ANSI.RESET.getCode());
+            return;
+        }
+
+        Login login = new Login(new RepoUsuario(conn), conn);
         Usuario usuario = login.iniciarSesion();
         IMenu menu = null;
 
+        // se instancia un menu de acuerdo al tipo de user.
         if (usuario instanceof Administrador) {
             menu = new MenuAdmin((Administrador) usuario);
         } else if (usuario instanceof Encargado) {
@@ -27,6 +37,14 @@ public class Consola {
         }
 
         menu.mostrar();
+
+        try {
+            // cierro la conexion a la DB
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
 
         System.out.println(ANSI.GREEN.getCode() + "Gracias por utilizar stockplus" + ANSI.RESET.getCode());
     }

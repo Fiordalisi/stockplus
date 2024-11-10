@@ -2,10 +2,7 @@ package internal.usuario;
 
 import internal.ANSI;
 import internal.Mensajes;
-import internal.repositorio.RepoCategoria;
-import internal.repositorio.RepoProducto;
-import internal.repositorio.RepoProveedor;
-import internal.repositorio.RepoUsuario;
+import internal.repositorio.*;
 
 import java.util.Scanner;
 
@@ -13,8 +10,8 @@ public class Administrador extends Usuario {
 
     private RepoUsuario repoUsuario;
 
-    public Administrador(String name, String contra) {
-        super(name, contra, "ADMIN");
+    public Administrador(String name, String contra, int ID) {
+        super(name, contra, "ADMIN", ID);
     }
 
     public void setRepoUsuario(RepoUsuario repoUsuario){
@@ -55,11 +52,11 @@ public class Administrador extends Usuario {
 
         switch (opcion) {
             case 1:
-                repoUsuario.crear(new Empleado(nombre, contra, new RepoProducto()));
+                repoUsuario.crear(new Empleado(nombre, contra, 1, new RepoProducto(null), new RepoVenta(null)));
                 break;
             case 2:
-                repoUsuario.crear(new Encargado(nombre, contra, new RepoProducto(),
-                        new RepoProveedor(), new RepoCategoria()));
+                repoUsuario.crear(new Encargado(nombre, contra, 1, new RepoProducto(null),
+                        new RepoProveedor(null), new RepoCategoria(null)));
                 break;
         }
 
