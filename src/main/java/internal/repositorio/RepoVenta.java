@@ -6,7 +6,6 @@ import internal.negocio.Producto;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -43,31 +42,26 @@ public class RepoVenta {
             java.util.Date javaDate = new java.util.Date();
             Date date = new Date(javaDate.getTime());
             statement.setDate(2, date);
-
-            // Establecer el email, total y usuarioID
             statement.setString(3, email);
             statement.setDouble(4, total);
             statement.setInt(6, usuarioID);
 
-            // Generar el JSON manualmente para la lista de productos
             StringBuilder productosJson = new StringBuilder("[");
             for (int i = 0; i < productos.size(); i++) {
                 Producto producto = productos.get(i);
 
-                // Agregar el objeto JSON del producto
+                // genero el json para cada producto
                 productosJson.append("{")
                         .append("\"nombre\":\"").append(producto.getNombre()).append("\", ")
                         .append("\"precio\":").append(producto.getPrecioUnitario())
                         .append("}");
 
-                // Agregar coma solo si no es el último elemento
                 if (i < productos.size() - 1) {
                     productosJson.append(", ");
                 }
             }
-            productosJson.append("]"); // Cerrar el array JSON
+            productosJson.append("]");
 
-            // Asignar el JSON de productos a la columna `productos_vendidos`
             statement.setString(5, productosJson.toString());
 
             statement.executeUpdate();
