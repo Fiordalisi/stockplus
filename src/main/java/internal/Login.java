@@ -1,9 +1,6 @@
 package internal;
 
-import internal.repositorio.RepoCategoria;
-import internal.repositorio.RepoProducto;
-import internal.repositorio.RepoProveedor;
-import internal.repositorio.RepoUsuario;
+import internal.repositorio.*;
 import internal.usuario.Administrador;
 import internal.usuario.Empleado;
 import internal.usuario.Encargado;
@@ -45,16 +42,15 @@ public class Login {
             }
         } while (!Objects.equals(usuario.getContra(), contra));
 
+        int ID = usuario.getID();
         switch (usuario.getTipo()) {
             case "ADMIN":
-                Administrador admin = new Administrador(nombre, contra);
-                //admin.setRepoUsuario(new RepoUsuario());
+                Administrador admin = new Administrador(nombre, contra, ID);
                 return admin;
             case "EMPLEADO":
-               return new Empleado(nombre, contra, new RepoProducto(conn));
-               //return new Empleado(nombre, contra, new RepoProducto(this.conn));
+               return new Empleado(nombre, contra, ID, new RepoProducto(conn), new RepoVenta(conn));
             default:
-               return new Encargado(nombre, contra,
+               return new Encargado(nombre, contra, ID,
                        new RepoProducto(conn), new RepoProveedor(conn), new RepoCategoria(conn));
         }
     }

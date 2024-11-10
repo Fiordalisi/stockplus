@@ -22,9 +22,9 @@ public class Encargado extends Usuario {
      * PRODUCTOS
      */
 
-    public Encargado(String name, String contra,
+    public Encargado(String name, String contra, int ID,
                      RepoProducto repoProducto, RepoProveedor repoProveedor, RepoCategoria repoCategoria) {
-        super(name, contra, "ENCARGADO");
+        super(name, contra, "ENCARGADO", ID);
         this.repoProducto = repoProducto;
         this.repoCategoria = repoCategoria;
         this.repoProveedor = repoProveedor;
@@ -225,12 +225,12 @@ public class Encargado extends Usuario {
         String nombre, categoria, email;
 
         do {
-            System.out.println("\nIngrese nombre del producto: ");
+            System.out.println("\nIngrese nombre del proveedor: ");
             nombre = sc.nextLine();
-            if (repoProveedor.buscar(nombre) != null) {
+            if (repoProveedor.buscarPorNombre(nombre) != null) {
                 Mensajes.errorBuscarProveedor(nombre, true);
             }
-        } while (repoProveedor.buscar(nombre) != null);
+        } while (repoProveedor.buscarPorNombre(nombre) != null);
 
         do {
             System.out.println("\nIngrese categoria: ");
@@ -256,7 +256,7 @@ public class Encargado extends Usuario {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nIngrese nombre del proveedor: ");
         String nombre = sc.nextLine();
-        Proveedor proveedor = repoProveedor.buscar(nombre);
+        Proveedor proveedor = repoProveedor.buscarPorNombre(nombre);
         if (proveedor == null) {
             Mensajes.errorBuscarProveedor(nombre, false);
             return;
@@ -275,7 +275,7 @@ public class Encargado extends Usuario {
         do {
             System.out.println("\nIngrese nombre del proveedor: ");
             String nombre = sc.nextLine();
-            proveedor = repoProveedor.buscar(nombre);
+            proveedor = repoProveedor.buscarPorNombre(nombre);
             if (proveedor == null) {
                 Mensajes.errorBuscarProveedor(nombre, false);
             }
@@ -292,7 +292,7 @@ public class Encargado extends Usuario {
         do {
             System.out.println("\nIngrese nombre del proveedor: ");
             String nombre = sc.nextLine();
-            proveedor = repoProveedor.buscar(nombre);
+            proveedor = repoProveedor.buscarPorNombre(nombre);
             if (proveedor == null) {
                 Mensajes.errorBuscarProveedor(nombre, false);
             }

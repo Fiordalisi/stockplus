@@ -1,6 +1,5 @@
 package internal.repositorio;
 
-import internal.Consola;
 import internal.negocio.Categoria;
 
 import java.sql.Connection;
@@ -22,6 +21,7 @@ public class RepoCategoria {
     private void inicializarCategorias() {
         categorias.add(new Categoria("CAT1", "Desc Categoria 1", new Date(), new Date()));
         categorias.add(new Categoria("CAT2", "Desc Categoria 2", new Date(), new Date()));
+        categorias.add(new Categoria("CAT5", "Desc Categoria5", new Date(), new Date()));
     }
 
     public boolean existeCategoria(String nombre) {

@@ -69,6 +69,14 @@ public class Producto {
         return stock;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -89,6 +97,10 @@ public class Producto {
         return limiteMinimo;
     }
 
+    public int getCantidadDeReposicion() {
+        return cantidadDeReposicion;
+    }
+
     public void setLimiteMinimo(int limite) {
         limiteMinimo = limite;
     }
@@ -97,8 +109,12 @@ public class Producto {
         cantidadDeReposicion = cant;
     }
 
-    public void actualizarStock(int cantidadVendida) {
-        stock -= cantidadVendida;
+    public void actualizarStock(int cantVendida) {
+        stock-=cantVendida;
+    }
+
+    public boolean superaLimiteMinimo() {
+        return stock < limiteMinimo;
     }
 
     private int limiteMinimoDefault(int stock) {

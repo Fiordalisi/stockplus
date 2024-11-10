@@ -7,6 +7,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,23 @@ public class Sender {
 
     final static String username = "stockplus.s21@gmail.com";
     final static String password = "qdnh qkob rwze ltnt";
+
+    public static Session generarSesion() {
+        Properties props = new Properties();
+
+        try (FileInputStream input = new FileInputStream("src/main/java/internal/gmail_auth.properties")) {
+            props.load(input);
+        } catch (IOException e) {
+            System.out.println(ANSI.RED.getCode() + "No se pudo leer el archivo properties: " + e.getMessage() + ANSI.RESET.getCode());
+        }
+
+        return Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+    }
 
     /**
     * EnviarFactura
@@ -27,35 +45,21 @@ public class Sender {
      * armar el contenido del mensaje.
     * */
     public static void EnviarFactura(String correoCliente, List<Producto> productos, HashMap<String, Integer> cantidades) {
-        // esto es necesario para la configuración del servidor SMTP de Gmail
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
         try {
-
-            Message message = new MimeMessage(session);
+            Message message = new MimeMessage(generarSesion());
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
                     Message.RecipientType.TO,
                     InternetAddress.parse(correoCliente)
             );
             message.setSubject("Confirmación de compra");
+            message.setHeader("Content-Type", "text/html; charset=UTF-8");
 
             // Todo el HTML del body del correo
             MimeBodyPart messageBodyPart = new MimeBodyPart();
 
             // acá se arma la tabla en formato html
-            StringBuilder htmlText = new StringBuilder("<h1>Resumen de compra</h1>");
+            StringBuilder htmlText = new StringBuilder("<h1>🛒 Resumen de compra 🛒</h1>");
             htmlText.append("<p>Gracias por su compra. A continuación se muestra el detalle de los productos adquiridos:</p>");
             htmlText.append("<table style='width:100%; border-collapse: collapse;'>");
             htmlText.append("<tr><th style='border: 1px solid black; padding: 8px;'>Producto</th>")
@@ -87,7 +91,7 @@ public class Sender {
             htmlText.append("<h3>Total Factura: $").append(String.format("%.2f", totalFactura)).append("</h3>");
 
             // para asignar el html al body del mensaje
-            messageBodyPart.setContent(htmlText.toString(), "text/html");
+            messageBodyPart.setContent(htmlText.toString(), "text/html; charset=UTF-8");
 
             // el multipart es necesario para combinar dentro del body todas las partes html
             Multipart multipart = new MimeMultipart();
@@ -99,6 +103,51 @@ public class Sender {
             Transport.send(message);
 
             System.out.println("Correo enviado exitosamente!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void NotificarProveedor(String correoProveedor, Producto producto) {
+        try {
+            Message message = new MimeMessage(generarSesion());
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(correoProveedor)
+            );
+            message.setSubject("Orden de compra");
+            message.setHeader("Content-Type", "text/html; charset=UTF-8");
+
+            // Todo el HTML del body del correo
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+
+            // acá se arma la tabla en formato html
+            StringBuilder htmlText = new StringBuilder("<h1>Notificación</h1>");
+            htmlText.append("<h2 style='color: #17202a;'> &#9993; Solicitamos la reposicion de nuevas cantidades</h2>");
+
+            // info del producto
+            htmlText.append("<p style='color: #17202a;'><strong>Producto: </strong>").append(producto.getNombre()).append("</p>");
+            htmlText.append("<p style='color: #17202a;'><strong>Cantidad solicitada: </strong>").append(producto.getCantidadDeReposicion()).
+                    append(" ").
+                    append(producto.getUnidadDeMedida()).
+                    append("</p>");
+
+            htmlText.append("<p style='margin-top: 20px;'>Saludos cordiales,<br>Administración</p>");
+
+            // para asignar el html al body del mensaje
+            messageBodyPart.setContent(htmlText.toString(), "text/html; charset=UTF-8");
+
+            // el multipart es necesario para combinar dentro del body todas las partes html
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            // finalmente se tiene que asignar el multipart al mensaje que se va a enviar
+            message.setContent(multipart);
+
+            Transport.send(message);
+
+            System.out.println("Se solicito al proveedor la reposicion del producto: " + producto.getNombre());
         } catch (MessagingException e) {
             e.printStackTrace();
         }

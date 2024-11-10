@@ -22,53 +22,12 @@ public class RepoUsuario {
     public RepoUsuario(Connection conn) {
         this.usuarios = new ArrayList<>();
         this.conn = conn;
-        //inicializarUsuarios();
-        //inicializarUsuariosDB();
+
     }
 
-    private void inicializarUsuarios(){
-        Administrador admin = new Administrador("ADMIN", "111");
-        admin.setRepoUsuario(this);
-        usuarios.add(admin);
-        usuarios.add(new Empleado("EMPLEADO", "123456", new RepoProducto(null)));
-        usuarios.add(new Encargado("ENCARGADO", "123456",
-                new RepoProducto(null), new RepoProveedor(null), new RepoCategoria(null)));
-    }
 
-    private void inicializarUsuariosDB(){
-        try {
-            // Crea un objeto Statement
-            Statement statement = conn.createStatement();
 
-            // Realiza la consulta
-            String query = "SELECT * FROM Usuarios";
-            ResultSet resultSet = statement.executeQuery(query);
 
-            // Procesa los resultados
-            while (resultSet.next()) {
-                String nombre = resultSet.getString("nombre");
-                String password = resultSet.getString("password");
-                String tipo = resultSet.getString("tipo");
-                // Imprime los datos
-                System.out.println("Nombre: " + nombre + ", password: " + password + " tipo: " + tipo);
-
-                switch (tipo) {
-                    case "administrador":
-                        usuarios.add(new Administrador(nombre, password));
-                    case "empleado":
-                        usuarios.add(new Empleado(nombre, password, null));
-                    case "encargado":
-                        usuarios.add(new Encargado(nombre, password, null, null, null));
-                }
-            }
-
-            // Cierra el ResultSet y Statement
-            resultSet.close();
-            statement.close();
-        } catch (Exception e) {
-            System.out.println(ANSI.RED.getCode() + "Fallo al inicializar usuarios: " + e + ANSI.RESET.getCode());
-        }
-    }
 
     public boolean existe(String nombre){
         for(Usuario usuario: usuarios){
@@ -90,16 +49,17 @@ public class RepoUsuario {
                 String nombreUser = resultSet.getString("nombre");
                 String password = resultSet.getString("password");
                 String tipo = resultSet.getString("tipo");
+                int ID = resultSet.getInt("id");
 
                 statement.close();
                 resultSet.close();
                 switch (tipo) {
                     case "administrador":
-                        return new Administrador(nombreUser, password);
+                        return new Administrador(nombreUser, password, ID);
                     case "empleado":
-                        return new Empleado(nombreUser, password, null);
+                        return new Empleado(nombreUser, password, ID, null, null);
                     case "encargado":
-                        return new Encargado(nombreUser, password, null, null, null);
+                        return new Encargado(nombreUser, password, ID, null, null, null);
                 }
             } else {
                 statement.close();

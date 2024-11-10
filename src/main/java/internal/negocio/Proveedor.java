@@ -5,6 +5,8 @@ import internal.Utils;
 import java.util.Date;
 
 public class Proveedor {
+
+
     private int ID;
     private String nombre;
     private String categoria;
@@ -28,6 +30,18 @@ public class Proveedor {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setEmail(String email) {
