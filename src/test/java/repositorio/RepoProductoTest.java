@@ -25,17 +25,16 @@ class RepoProductoTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Mockear la conexión, el PreparedStatement, el Statement y el ResultSet
+        // aca se mockea la conexión, el PreparedStatement, el Statement y el ResultSet
         mockConn = Mockito.mock(Connection.class);
         mockPreparedStatement = Mockito.mock(PreparedStatement.class);
         mockStatement = Mockito.mock(Statement.class);
         mockResultSet = Mockito.mock(ResultSet.class);
 
-        // Configurar el comportamiento de la conexión para devolver el PreparedStatement y Statement mockeados
         when(mockConn.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockConn.createStatement()).thenReturn(mockStatement);
 
-        // Instanciar RepoProducto con el mock de conexión
+        // creo el repo producto con el mock de la conexion
         repoProducto = new RepoProducto(mockConn);
     }
 
@@ -76,9 +75,10 @@ class RepoProductoTest {
 
     @Test
     void testBuscarProducto() throws Exception {
-        // Configurar el comportamiento del ResultSet simulado para devolver datos cuando se llama a "buscar"
+        // se configura el comportamiento del ResultSet simulado para devolver datos cuando se llama a "buscar"
         when(mockStatement.executeQuery(anyString())).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(true);  // Simular que se encuentra un producto
+        // simulo que encuetra algo
+        when(mockResultSet.next()).thenReturn(true);
         when(mockResultSet.getInt("id")).thenReturn(1);
         when(mockResultSet.getString("nombre")).thenReturn("ProductoPrueba");
         when(mockResultSet.getString("descripcion")).thenReturn("Descripción de prueba");
@@ -91,10 +91,9 @@ class RepoProductoTest {
         when(mockResultSet.getDate("fecha_de_creacion")).thenReturn(Date.valueOf("2023-01-01"));
         when(mockResultSet.getDate("fecha_de_modificacion")).thenReturn(Date.valueOf("2023-01-01"));
 
-        // Llamar al método que se desea probar
         Producto producto = repoProducto.buscar("ProductoPrueba");
 
-        // Verificar que el producto obtenido no sea nulo y tenga los datos esperados
+        // se verifica que el producto obtenido no sea nulo y tenga los datos esperados
         assertNotNull(producto);
         assertEquals("ProductoPrueba", producto.getNombre());
         assertEquals("Descripción de prueba", producto.getDescripcion());
@@ -104,7 +103,7 @@ class RepoProductoTest {
         assertEquals(5, producto.getLimiteMinimo());
         assertEquals(10, producto.getCantidadDeReposicion());
 
-        // Verificar que se llama a createStatement y executeQuery
+        // se verifica que se llama a los metodos createStatement y executeQuery
         verify(mockConn).createStatement();
         verify(mockStatement).executeQuery(anyString());
     }

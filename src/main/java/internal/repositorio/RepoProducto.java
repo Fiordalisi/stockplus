@@ -85,10 +85,8 @@ public class RepoProducto {
 
             java.util.Date javaDate = new java.util.Date();
             Date date = new Date(javaDate.getTime());
-
             statement.setDate(9, date);
             statement.setDate(10, date);
-
 
             statement.executeUpdate();
         } catch (Exception e) {
