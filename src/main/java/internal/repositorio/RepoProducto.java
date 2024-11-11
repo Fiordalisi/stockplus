@@ -26,7 +26,42 @@ public class RepoProducto {
 
 
     public List<Producto> obtenerTodos() {
-        return productos;
+        List<Producto> todos = new ArrayList<>();
+        try {
+            Statement statement = conn.createStatement();
+
+            String query = "SELECT * FROM Productos";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nombre = resultSet.getString("nombre");
+                String desc = resultSet.getString("descripcion");
+                String unidad = resultSet.getString("unidad_de_medida");
+                int stock = resultSet.getInt("stock");
+                double precio = resultSet.getDouble("precio_unitario");
+                int limite = resultSet.getInt("limite_minimo");
+                int cant = resultSet.getInt("cantidad_de_reposicion");
+                int cat = resultSet.getInt("categoria_id");
+                Date fechaCreacion = resultSet.getDate("fecha_de_creacion");
+                Date fechaModi = resultSet.getDate("fecha_de_modificacion");
+
+                Producto prod = new Producto(nombre, desc, unidad, stock, precio, String.format("%d", cat), fechaCreacion, fechaModi);
+                prod.setLimiteMinimo(limite);
+                prod.setCantidadDeReposicion(cant);
+                prod.setId(id);
+                todos.add(prod);
+            }
+
+            statement.close();
+            resultSet.close();
+
+
+        } catch (Exception e) {
+            System.out.println(ANSI.RED.getCode() + "Fallo al buscar producto: " + e + ANSI.RESET.getCode());
+        }
+
+        return todos;
     }
 
     public void agregar(Producto producto) {
