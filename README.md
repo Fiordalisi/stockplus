@@ -59,3 +59,7 @@ mejorando la eficiencia y reduciendo, permitiendo que el negocio se enfoque en o
 9. Finalmente verificar el email recibido. 
 Tener en cuenta que el remitente será: `
 stockplus.s21@gmail.com`
+
+### Demo
+
+[Registro de venta](https://drive.google.com/file/d/1uifQ8zNJkAK5MVgsTWkJFzGjjbtvhnP1/view?usp=sharing)
